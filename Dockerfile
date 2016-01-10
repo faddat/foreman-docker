@@ -1,4 +1,4 @@
-FROM centos:centos6
+FROM centos:centos7
 MAINTAINER Dave Johnston email: dave.johnston@icloud.com
 WORKDIR /tmp
 
@@ -13,8 +13,8 @@ ENV FOREOPTS --enable-foreman-compute-ec2 \
  --foreman-admin-password changeme 
 
 RUN yum install -y \
- https://anorien.csc.warwick.ac.uk/mirrors/epel/6/x86_64/epel-release-6-8.noarch.rpm \
- http://yum.theforeman.org/releases/1.10/el6/x86_64/foreman-release.rpm \
+ https://anorien.csc.warwick.ac.uk/mirrors/epel/7/x86_64/e/epel-release-7-5.noarch.rpm \
+ http://yum.theforeman.org/releases/1.10/el7/x86_64/foreman-release.rpm \
  && wget https://raw.githubusercontent.com/jpetazzo/pipework/master/pipework -O /usr/bin/pipework
 
 RUN yum install -y scl-utils \
