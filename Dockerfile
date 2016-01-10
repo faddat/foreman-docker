@@ -14,7 +14,7 @@ ENV FOREOPTS --enable-foreman-compute-ec2 \
 
 RUN yum install -y \
  https://anorien.csc.warwick.ac.uk/mirrors/epel/6/x86_64/epel-release-6-8.noarch.rpm \
- http://yum.theforeman.org/releases/1.7/el6/x86_64/foreman-release.rpm \
+ http://yum.theforeman.org/releases/1.10/el6/x86_64/foreman-release.rpm \
  && wget https://raw.githubusercontent.com/jpetazzo/pipework/master/pipework -O /usr/bin/pipework
 
 RUN yum install -y scl-utils \
@@ -27,7 +27,7 @@ RUN yum install -y scl-utils \
 RUN puppet apply -e 'host { $::hostname: ensure => absent } -> host { "${::hostname}.docker.local": ip => $::ipaddress, host_aliases => [$::hostname] }' \
  && cp /etc/foreman/foreman-installer-answers.yaml /tmp \
  && foreman-installer $FOREOPTS \
- && wget http://downloads.theforeman.org/discovery/releases/2.0/fdi-image-2.0.0.tar \
+ && wget http://downloads.theforeman.org/discovery/releases/latest/fdi-image-latest.tar \
  -O - | tar x --overwrite -C /var/lib/tftpboot/boot \
  && chmod a+x /usr/bin/pipework \
  && mv /tmp/foreman-installer-answers.yaml /etc/foreman/foreman-installer-answers.yaml \
