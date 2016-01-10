@@ -1,5 +1,5 @@
 FROM centos:centos7
-MAINTAINER Dave Johnston email: dave.johnston@icloud.com
+MAINTAINER Jacob Gadikian email: jake@klouds.org
 WORKDIR /tmp
 
 ENV FOREOPTS --enable-foreman-compute-ec2 \
