@@ -1,4 +1,4 @@
-FROM centos:centos7
+FROM debian:latest
 MAINTAINER Jacob Gadikian email: jake@klouds.org
 WORKDIR /tmp
 
@@ -12,17 +12,11 @@ ENV FOREOPTS --enable-foreman-compute-ec2 \
  --enable-puppet \
  --foreman-admin-password changeme 
 
-RUN yum install -y \
- https://anorien.csc.warwick.ac.uk/mirrors/epel/7/x86_64/e/epel-release-7-5.noarch.rpm \
- http://yum.theforeman.org/releases/1.10/el7/x86_64/foreman-release.rpm \
- && wget https://raw.githubusercontent.com/jpetazzo/pipework/master/pipework -O /usr/bin/pipework
-
-RUN yum install -y scl-utils \
- rhscl-ruby193* \
- wget \
- tar \
- puppet \
- foreman-installer 
+RUN apt-get update && apt-get upgrade
+RUN echo "deb http://deb.theforeman.org/ jessie 1.10" > /etc/apt/sources.list.d/foreman.list
+RUN echo "deb http://deb.theforeman.org/ plugins 1.10" >> /etc/apt/sources.list.d/foreman.list
+RUN wget -q http://deb.theforeman.org/pubkey.gpg -O- | apt-key add -
+RUN apt-get update && apt-get -y install foreman-installer
 
 RUN puppet apply -e 'host { $::hostname: ensure => absent } -> host { "${::hostname}.docker.local": ip => $::ipaddress, host_aliases => [$::hostname] }' \
  && cp /etc/foreman/foreman-installer-answers.yaml /tmp \
